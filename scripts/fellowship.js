@@ -79,14 +79,14 @@ const makeHobbits = () => {
   // Goal: display an unordered list of hobbits in the shire (which is the first article tag on the page)
 
   // 1. create a 'ul'
-   const $ul = $("<ul>")
+   const $shireUl = $("<ul>").addClass("shireUl")
   // 2. make each hobbit an li element and append it to the 'ul' you just created
     // hint: use the given 'hobbits' array and use a for loop
   for (hobbit of hobbits){
      const $li = $("<li>").text(hobbit)
      $("li").addClass("hobbit")
-     $ul.append($li)
-     $("#The-Shire").append($ul)
+     $shireUl.append($li)
+     $("#The-Shire").append($shireUl)
   }
   // 3. also, give each hobbit (`li`) a class of "hobbit"
   
@@ -126,12 +126,16 @@ const keepItSecretKeepItSafe = () => {
 const makeBaddies = () => {
 
   // 1. display an unordered list of baddies in Mordor
-    const $ul = $("<ul>").text(baddies)
+  const $baddiesUl = $("<ul>").addClass("baddiesUl")
+  for(bad of baddies){
+  const $bad = $("<li>").text(bad)
 
   // 2. give each of the baddies a class of "baddy"
-    $ul.addClass("baddy")
+    $bad.addClass("baddy")
+    $baddiesUl.append($bad)
+  }
   // 3. remember to append the ul to Mordor
-    $("#Mordor").append($ul)
+    $("#Mordor").append($baddiesUl)
 };
 
 // COMMIT YOUR WORK
@@ -144,19 +148,20 @@ const makeBuddies = () => {
 
   // 1. create an aside tag and append it to middle-earth below mordor
 const $aside = $("<aside>")
-$("#Mordor").append($aside)
+
   // 2. display an unordered list of buddies in the aside
-  const $ul = $("<ul>")
+const $buddiesUl = $("<ul>").addClass("buddiesUl")
  
 for(buddy of buddies){
-const $li = $("<li>").text(buddies)
+const $buddy = $("<li>").addClass("buddy").text(buddy)
   // 3. give each of the buddies a class of "buddy"
-$("li").addClass("buddy")
-$ul.append($li)
+$buddiesUl.append($buddy)
+
   // 4. don't forget to append them to the aside
-  // $aside.append($ul)
+  
     }
-    $aside.append($ul)
+    $aside.append($buddiesUl)
+    $("#middle-earth").append($aside)
 };
 
 // COMMIT YOUR WORK
@@ -170,8 +175,10 @@ const leaveTheShire = () => {
   // 1. grab the hobbits (the ul in which they reside) and move them to Rivendell
       // hint: the hobbits ul is a childNode of The-Shire-- there is way to get a list of childNodes
    // use .children to append to Rivendall
-   const $children = $("#The-Shire").children()
-  $("#Rivendall").append($children)
+   const $children = $("#The-Shire").children("ul")
+   //use detach and appendto
+   $children.appendTo($("#Rivendell"))
+  
 };
 
 // COMMIT YOUR WORK
@@ -185,8 +192,9 @@ const beautifulStranger = () => {
   // 1. change the buddy 'Strider' textnode to "Aragorn"
      // hint: You can get a list of elements by tag name, such as 'aside'
 // use class buddy eq to get strider and .text
-$(".buddy").eq(3).text("Aragorn")
-  
+const $change = $("aside").children().eq(0).children().eq(3).text("Aragorn")
+
+
 
 };
 
@@ -199,14 +207,18 @@ $(".buddy").eq(3).text("Aragorn")
 const forgeTheFellowShip = () => {
 
   // 1. create a new div with an id 'the-fellowship'
-  const $div = $("<div>").attr("id", "the-fellowship")
+  const $fellow = $("<div>").attr("id", "the-fellowship")
   // 2. add an h1 with the text 'The Fellowship' to this new div
   const $h1 = $("<h1>").text("The Fellowship")
-  $div.append($h1)
+  $fellow.append($h1)
   // 3. append the fellowship to middle-earth
-  $("middle-earth").append($div)
+  $fellow.appendTo($("#middle-earth"))
   // 4. add the unordered lists of hobbits and buddies to 'the-fellowship'
-  $($div).append(".hobbit").append(".buddy")
+  $hobbits = $('ul').eq(0)
+  $buddies = $('ul').eq(2)
+
+  $fellow.append($hobbits)
+  $fellow.append($buddies)
 };
 
 // COMMIT YOUR WORK
@@ -218,9 +230,9 @@ const forgeTheFellowShip = () => {
 const theBalrog = () => {
 
   // 1. change the 'Gandalf' text to 'Gandalf the White'
-
+  const $gandalf = $('#the-fellowship').children().eq(2).children().eq(0)
   // 2. add a class "the-white" to this element
-
+  $gandalf.addClass("the-white").text("Gandalf the White")
   // 3. in the style.css file, add a css rule to make elements of the class "the-white" have a white background and a grey border
 
 };
@@ -234,10 +246,13 @@ const theBalrog = () => {
 const hornOfGondor = () => {
 
   // 1. create a pop-up alert that the horn of gondor has been blown
+alert("horn of gondor has been blown")
 
   // 2. Boromir's been killed by the Uruk-hai! Put a linethrough on Boromir's name
+$("#the-fellowship").children().eq(2).children().eq(4).css("text-decoration", "line-through")
 
   // 3. Tricky: Remove the Uruk-Hai from the Baddies on the page
+$("#Mordor").children().eq(1).children().eq(2).remove()
 
 };
 
@@ -250,9 +265,14 @@ const hornOfGondor = () => {
 const itsDangerousToGoAlone = () => {
 
   // 1. take Frodo and Sam out of the fellowship and move them to Mordor (they don't need to be inside a ul in Mordor)
-
-  // 2. add a div with an id of 'mount-doom' to Mordor
-
+  // $("#Mordor").append($("<div>")).attr("id", "mount-doom")
+const $frodo = $(".shireUl").children().eq(0)
+const $sam = $(".shireUl").children().eq(1)
+$frodo.appendTo($("#Mordor"))
+$sam.appendTo($("#Mordor"))
+// 2. add a div with an id of 'mount-doom' to Mordor
+const $div = $("<div>").attr("id", "mount-doom")
+$("#Mordor").append($div)
 };
 
 // COMMIT YOUR WORK
@@ -264,11 +284,13 @@ const itsDangerousToGoAlone = () => {
 const weWantsIt = () => {
 
   // 1. Create a div with an id of 'gollum' and add it to Mordor
-
+const $gollum = $("<div>").attr("id", "gollum")
+$("#Mordor").append($gollum)
   // 2. Move the ring from Frodo and give it to Gollum
-
+const $ring = $("#the-ring")
+$gollum.append($ring)
   // 3. Move Gollum into Mount Doom
-
+$("#mount-doom").append($gollum)
 };
 
 // COMMIT YOUR WORK
@@ -280,11 +302,15 @@ const weWantsIt = () => {
 const thereAndBackAgain = () => {
 
   // 1. remove Gollum and the Ring from the DOM
-
+ const $removeGollum = $("#gollum").remove()
   // 2. remove all the baddies from the DOM
-
+  const $removeBaddy = $(".baddy").remove()
   // 3. Move all the hobbits back to the shire
+  const $move1 = $("#the-fellowship").children(".shireUl")
+  $move1.appendTo($("#The-Shire"))
 
+  const $move2 = $("#Mordor").children(".hobbit")
+  $move2.appendTo($("#The-Shire"))
 };
 
 // COMMIT YOUR WORK

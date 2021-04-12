@@ -4,6 +4,10 @@ html, body {
   margin: 0 0 0 0;
 }
 
+.the-white {
+  background-color: white;
+  color: darkgrey;
+}
 
 @font-face {
   font-family: Bilbo;
